@@ -16,7 +16,10 @@ $ go get -u github.com/koron/gtc
 $ go list
 
 # List tools not-installed
-$ go list -not
+$ go list -filter notinstalled
+
+# List tools unknown (for gtc)
+$ go list -filter unknown
 
 # Install a tool
 $ go install jvgrep

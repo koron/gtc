@@ -2,9 +2,11 @@ package goenv
 
 import (
 	"go/build"
+	"io/ioutil"
 	"os"
 	"os/exec"
 	"path/filepath"
+	"strings"
 )
 
 type Env struct {
@@ -43,6 +45,25 @@ func (env *Env) Update(path string) error {
 		return err
 	}
 	return nil
+}
+
+func (env *Env) Tools() ([]string, error) {
+	files, err := ioutil.ReadDir(filepath.Join(env.RootDir, "bin"))
+	if err != nil {
+		return nil, err
+	}
+	var tools []string
+	for _, fi := range files {
+		if !fi.Mode().IsRegular() {
+			continue
+		}
+		n := fi.Name()
+		if env.ExeSuffix != "" && strings.HasSuffix(n, env.ExeSuffix) {
+			n = n[:len(n)-len(env.ExeSuffix)]
+		}
+		tools = append(tools, n)
+	}
+	return tools, nil
 }
 
 func defaultEnv(bc build.Context) Env {
