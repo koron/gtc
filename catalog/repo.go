@@ -1,6 +1,10 @@
 package catalog
 
 var repo = map[string]Catalog{
+	"dep": {
+		Path: "github.com/golang/dep/cmd/dep",
+		Desc: "Go dependency tool",
+	},
 	"errcheck": {
 		Path: "github.com/kisielk/errcheck",
 		Desc: "errcheck checks that you checked errors.",
