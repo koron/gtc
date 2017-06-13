@@ -7,6 +7,7 @@ import (
 	"os/exec"
 	"path/filepath"
 	"strings"
+	"time"
 )
 
 type Env struct {
@@ -47,14 +48,14 @@ func (env *Env) Update(path string) error {
 	return nil
 }
 
-func (env *Env) Tools() ([]string, error) {
+func (env *Env) tools(filter func(os.FileInfo) bool) ([]string, error) {
 	files, err := ioutil.ReadDir(filepath.Join(env.RootDir, "bin"))
 	if err != nil {
 		return nil, err
 	}
 	var tools []string
 	for _, fi := range files {
-		if !fi.Mode().IsRegular() {
+		if !fi.Mode().IsRegular() || !filter(fi) {
 			continue
 		}
 		n := fi.Name()
@@ -64,6 +65,16 @@ func (env *Env) Tools() ([]string, error) {
 		tools = append(tools, n)
 	}
 	return tools, nil
+}
+
+func (env *Env) Tools() ([]string, error) {
+	return env.tools(func(os.FileInfo) bool { return true })
+}
+
+func (env *Env) OldTools(pivot time.Time) ([]string, error) {
+	return env.tools(func(fi os.FileInfo) bool {
+		return fi.ModTime().Before(pivot)
+	})
 }
 
 func defaultEnv(bc build.Context) Env {
