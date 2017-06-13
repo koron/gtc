@@ -13,6 +13,10 @@ var repo = map[string]Catalog{
 		Path: "github.com/nsf/gocode",
 		Desc: "An autocompletion daemon for the Go programming language",
 	},
+	"gocyclo" : {
+		Path: "github.com/fzipp/gocyclo",
+		Desc: "Calculate cyclomatic complexities of functions in Go source code.",
+	},
 	"goimports": {
 		Path: "golang.org/x/tools/cmd/goimports",
 		Desc: "updates your Go import lines, adding missing ones and removing unreferenced ones.",

@@ -50,14 +50,11 @@ func updateAll(env *goenv.Env, dur time.Duration) error {
 }
 
 func updateTools(env *goenv.Env, tools []string) error {
-	switch len(tools) {
-	case 0:
+	if len(tools) == 0 {
 		return errors.New("no tools to update")
-	case 1:
-		return updateOne(env, tools[0], false)
 	}
 	for _, prog := range tools {
-		err := updateOne(env, prog, true)
+		err := updateOne(env, prog)
 		if err != nil {
 			return err
 		}
@@ -65,7 +62,7 @@ func updateTools(env *goenv.Env, tools []string) error {
 	return nil
 }
 
-func updateOne(env *goenv.Env, prog string, verbose bool) error {
+func updateOne(env *goenv.Env, prog string) error {
 	c, ok := catalog.Find(prog)
 	if !ok {
 		return fmt.Errorf("unknown catalog %q", prog)
@@ -74,9 +71,7 @@ func updateOne(env *goenv.Env, prog string, verbose bool) error {
 		log.Printf("not installed: %s", prog)
 		return nil
 	}
-	if verbose {
-		log.Printf("updating: %s", prog)
-	}
+	log.Printf("updating: %s", prog)
 	err := env.Update(c.Path)
 	if err != nil {
 		return err
