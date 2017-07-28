@@ -3,18 +3,27 @@ package main
 import (
 	"flag"
 	"fmt"
+	"io"
+	"os"
 
 	"github.com/koron/gtc/catalog"
 	"github.com/koron/gtc/goenv"
 )
 
+var (
+	listShowPath bool
+	listShowDesc bool
+)
+
 func list(args []string) error {
 	var (
-		filter string
-		fs  = flag.NewFlagSet(`"gtc list"`, flag.ExitOnError)
+		filter   string
+		fs       = flag.NewFlagSet(`"gtc list"`, flag.ExitOnError)
 	)
 	fs.StringVar(&filter, "filter", "installed",
 		`filter by status: "installed", "notinstalled" or "unknown"`)
+	fs.BoolVar(&listShowPath, "path", false, `show path of catalogs`)
+	fs.BoolVar(&listShowDesc, "desc", false, `show desc of catalogs`)
 	err := fs.Parse(args)
 	if err != nil {
 		return err
@@ -33,13 +42,26 @@ func list(args []string) error {
 	}
 }
 
+func listPrint(w io.Writer, c catalog.Catalog) {
+	w.Write([]byte(c.Name()))
+	if listShowPath {
+		w.Write([]byte("\t"))
+		w.Write([]byte(c.Path))
+	}
+	if listShowDesc {
+		w.Write([]byte("\t"))
+		w.Write([]byte(c.Desc))
+	}
+	w.Write([]byte("\n"))
+}
+
 func listNotInstalled(env goenv.Env) error {
 	for _, prog := range catalog.Names() {
 		if env.HasTool(prog) {
 			continue
 		}
 		c, _ := catalog.Find(prog)
-		fmt.Printf("%s\t%s\n", prog, c.Desc)
+		listPrint(os.Stdout, c)
 	}
 	return nil
 }
@@ -49,7 +71,8 @@ func listInstalled(env goenv.Env) error {
 		if !env.HasTool(prog) {
 			continue
 		}
-		fmt.Println(prog)
+		c, _ := catalog.Find(prog)
+		listPrint(os.Stdout, c)
 	}
 	return nil
 }

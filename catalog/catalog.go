@@ -1,10 +1,17 @@
 package catalog
 
-import "sort"
+import (
+	"path"
+	"sort"
+)
 
 type Catalog struct {
 	Path string
 	Desc string
+}
+
+func (c Catalog) Name() string {
+	return path.Base(c.Path)
 }
 
 func Find(name string) (Catalog, bool) {
