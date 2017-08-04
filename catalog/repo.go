@@ -29,6 +29,10 @@ var repo = map[string]Catalog{
 		Path: "github.com/jstemmer/gotags",
 		Desc: "ctags-compatible tag generator for Go",
 	},
+	"goyacc": {
+		Path: "golang.org/x/tools/cmd/goyacc",
+		Desc: "Goyacc is a version of yacc for Go.",
+	},
 	"gtc": {
 		Path: "github.com/koron/gtc",
 		Desc: "Go tools catalog",
