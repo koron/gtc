@@ -45,4 +45,8 @@ var repo = map[string]Catalog{
 		Path: "github.com/client9/misspell/cmd/misspell",
 		Desc: "Correct commonly misspelled English words in source files",
 	},
+	"swagger": {
+		Path: "github.com/go-swagger/swagger/cmd/swagger",
+		Desc: "Swagger 2.0 implementation for go https://goswagger.io",
+	},
 }
