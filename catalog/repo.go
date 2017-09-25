@@ -46,7 +46,7 @@ var repo = map[string]Catalog{
 		Desc: "Correct commonly misspelled English words in source files",
 	},
 	"planter": {
-		Path: "https://github.com/achiku/planter",
+		Path: "github.com/achiku/planter",
 		Desc: "Generate PlantUML ER diagram textual description from PostgreSQL tables",
 	},
 	"swagger": {
