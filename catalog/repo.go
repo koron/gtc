@@ -53,4 +53,8 @@ var repo = map[string]Catalog{
 		Path: "github.com/go-swagger/go-swagger/cmd/swagger",
 		Desc: "Swagger 2.0 implementation for go https://goswagger.io",
 	},
+	"unused": {
+		Path: "honnef.co/go/tools/cmd/unused",
+		Desc: "unused checks Go code for unused constants, variables, functions and types.",
+	},
 }
