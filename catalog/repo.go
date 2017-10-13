@@ -25,6 +25,10 @@ var repo = map[string]Catalog{
 		Path: "github.com/golang/lint/golint",
 		Desc: "a linter for Go source code",
 	},
+	"gorename": {
+		Path: "golang.org/x/tools/cmd/gorename",
+		Desc: "The gorename command performs precise type-safe renaming of identifiers in Go source code.",
+	},
 	"gotags": {
 		Path: "github.com/jstemmer/gotags",
 		Desc: "ctags-compatible tag generator for Go",
