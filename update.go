@@ -11,12 +11,17 @@ import (
 	"github.com/koron/gtc/goenv"
 )
 
+var (
+	updateDryrun bool
+)
+
 func update(args []string) error {
 	var (
 		all bool
 		dur time.Duration
 		fs  = flag.NewFlagSet(`"gtc update"`, flag.ExitOnError)
 	)
+	fs.BoolVar(&updateDryrun, "dryrun", false, "dry run to update")
 	fs.BoolVar(&all, "all", false, "update all installed tools")
 	fs.DurationVar(&dur, "duration", time.Hour*24*5,
 		"threshold to update with \"-all\"")
@@ -69,6 +74,10 @@ func updateOne(env *goenv.Env, prog string) error {
 	}
 	if !env.HasTool(prog) {
 		log.Printf("not installed: %s", prog)
+		return nil
+	}
+	if updateDryrun {
+		log.Printf("updating (dryrun): %s", prog)
 		return nil
 	}
 	log.Printf("updating: %s", prog)
