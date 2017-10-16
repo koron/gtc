@@ -13,6 +13,7 @@ import (
 type Env struct {
 	RootDir   string
 	ExeSuffix string
+	IsWindows bool
 }
 
 func New(root string) *Env {
@@ -21,8 +22,31 @@ func New(root string) *Env {
 	}
 }
 
+func (env *Env) toolName(tool string) string {
+	return filepath.Join(env.RootDir, "bin", tool+env.ExeSuffix)
+}
+
+func (env *Env) removeTool(tool string) error {
+	n := env.toolName(tool)
+	_, err := os.Stat(n)
+	if err != nil {
+		if os.IsNotExist(err) {
+			return nil
+		}
+		return err
+	}
+	err = os.Remove(n)
+	if err != nil {
+		if env.IsWindows && os.IsPermission(err) {
+			return os.Rename(n, n+"~")
+		}
+		return err
+	}
+	return nil
+}
+
 func (env *Env) HasTool(tool string) bool {
-	name := filepath.Join(env.RootDir, "bin", tool+env.ExeSuffix)
+	name := env.toolName(tool)
 	fi, err := os.Stat(name)
 	if err != nil {
 		return false
@@ -39,7 +63,13 @@ func (env *Env) Install(path string) error {
 	return nil
 }
 
-func (env *Env) Update(path string) error {
+func (env *Env) Update(path, tool string) error {
+	if tool != "" {
+		err := env.removeTool(tool)
+		if err != nil {
+			return err
+		}
+	}
 	c := exec.Command("go", "get", "-v", "-u", path)
 	err := c.Run()
 	if err != nil {
@@ -82,13 +112,18 @@ func defaultEnv(bc build.Context) Env {
 	if len(gopath) == 0 {
 		panic("GOPATH isn't set")
 	}
-	var exeSuffix string
+	var (
+		exeSuffix string
+		isWindows bool
+	)
 	if bc.GOOS == "windows" {
 		exeSuffix = ".exe"
+		isWindows = true
 	}
 	return Env{
 		RootDir:   gopath[0],
 		ExeSuffix: exeSuffix,
+		IsWindows: isWindows,
 	}
 }
 

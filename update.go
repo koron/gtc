@@ -81,7 +81,7 @@ func updateOne(env *goenv.Env, prog string) error {
 		return nil
 	}
 	log.Printf("updating: %s", prog)
-	err := env.Update(c.Path)
+	err := env.Update(c.Path, prog)
 	if err != nil {
 		return err
 	}
