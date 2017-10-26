@@ -1,7 +1,8 @@
-package main
+package gtcore
 
 import (
 	"errors"
+	"flag"
 	"fmt"
 	"log"
 
@@ -9,12 +10,15 @@ import (
 	"github.com/koron/gtc/goenv"
 )
 
-func install(args []string) error {
-	if len(args) == 0 {
+func install(fs *flag.FlagSet, args []string) error {
+	if err := fs.Parse(args); err != nil {
+		return err
+	}
+	if fs.NArg() == 0 {
 		return errors.New("no tools to install")
 	}
 	env := goenv.Default
-	for _, prog := range args {
+	for _, prog := range fs.Args() {
 		err := installOne(env, prog)
 		if err != nil {
 			return err
