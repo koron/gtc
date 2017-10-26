@@ -5,8 +5,8 @@ import (
 )
 
 type Tool struct {
-	Path string
-	Desc string
+	Path string `json:"path"`
+	Desc string `json:"desc"`
 }
 
 func (c Tool) Name() string {

@@ -1,5 +1,11 @@
 package gtcore
 
+import (
+	"encoding/json"
+	"log"
+	"os"
+)
+
 var defaultTools = []Tool{
 	{
 		Path: "github.com/golang/dep/cmd/dep",
@@ -67,5 +73,21 @@ var defaultTools = []Tool{
 var DefaultCatalog Catalog
 
 func init() {
-	DefaultCatalog = NewCatalog(defaultTools...)
+	catalogFile := os.Getenv("GTC_CATALOG_FILE")
+	if catalogFile == "" {
+		DefaultCatalog = NewCatalog(defaultTools...)
+	} else {
+		f, err := os.Open(catalogFile)
+		if err != nil {
+			log.Fatalf("cannot open catalog file: %v", err)
+		}
+		defer f.Close()
+
+		var tools []Tool
+		err = json.NewDecoder(f).Decode(&tools)
+		if err != nil {
+			log.Fatalf("cannot parse catalog file: %v", err)
+		}
+		DefaultCatalog = NewCatalog(tools...)
+	}
 }
