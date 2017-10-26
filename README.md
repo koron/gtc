@@ -36,3 +36,40 @@ $ go update goimports golint jvgrep
 # Update all tools which has been installed and not touched over 5 days
 $ go update -all
 ```
+
+## Custmize with your own catalog
+
+
+Create a new repository `github.com/{YOURNAME}/mygtc` with main.go like this:
+
+```go
+package main
+
+import (
+	"fmt"
+	"os"
+
+	"github.com/koron/gtc/gtcore"
+)
+
+func main() {
+	err := gtcore.DefaultCatalog.Merge([]gtcore.Tools{
+		{
+			Path: "github.com/{YOURNAME}/mygtc",
+			Desc: "My own go tools catalog",
+		},
+		// FIXME: add your favorite tools at here!
+	}).Run(os.Args)
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+}
+```
+
+Then install it:
+
+```console
+$ go get -u github.com/{YOURNAME}/mygtc
+```
+
+Now you can run `mygtc` instead of `gtc`.
