@@ -1,4 +1,4 @@
-package main
+package gtcore
 
 import (
 	"flag"
@@ -11,26 +11,22 @@ import (
 )
 
 var (
+	listFilter   string
 	listShowPath bool
 	listShowDesc bool
 )
 
-func list(args []string) error {
-	var (
-		filter   string
-		fs       = flag.NewFlagSet(`"gtc list"`, flag.ExitOnError)
-	)
-	fs.StringVar(&filter, "filter", "installed",
+func list(fs *flag.FlagSet, args []string) error {
+	fs.StringVar(&listFilter, "filter", "installed",
 		`filter by status: "installed", "notinstalled" or "unknown"`)
 	fs.BoolVar(&listShowPath, "path", false, `show path of catalogs`)
 	fs.BoolVar(&listShowDesc, "desc", false, `show desc of catalogs`)
-	err := fs.Parse(args)
-	if err != nil {
+	if err := fs.Parse(args); err != nil {
 		return err
 	}
 
 	env := goenv.Default
-	switch filter {
+	switch listFilter {
 	case "installed":
 		return listInstalled(env)
 	case "notinstalled":
@@ -38,7 +34,7 @@ func list(args []string) error {
 	case "unknown":
 		return listUnknown(env)
 	default:
-		return fmt.Errorf("unsupported filter: %s", filter)
+		return fmt.Errorf("unsupported filter: %s", listFilter)
 	}
 }
 

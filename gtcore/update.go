@@ -1,4 +1,4 @@
-package main
+package gtcore
 
 import (
 	"errors"
@@ -12,26 +12,23 @@ import (
 )
 
 var (
-	updateDryrun bool
+	updateDryrun   bool
+	updateFlagAll  bool
+	updateDuration time.Duration
 )
 
-func update(args []string) error {
-	var (
-		all bool
-		dur time.Duration
-		fs  = flag.NewFlagSet(`"gtc update"`, flag.ExitOnError)
-	)
+func update(fs *flag.FlagSet, args []string) error {
 	fs.BoolVar(&updateDryrun, "dryrun", false, "dry run to update")
-	fs.BoolVar(&all, "all", false, "update all installed tools")
-	fs.DurationVar(&dur, "duration", time.Hour*24*5,
+	fs.BoolVar(&updateFlagAll, "all", false, "update all installed tools")
+	fs.DurationVar(&updateDuration, "duration", time.Hour*24*5,
 		"threshold to update with \"-all\"")
-	err := fs.Parse(args)
-	if err != nil {
+	if err := fs.Parse(args); err != nil {
 		return err
 	}
+
 	env := goenv.Default
-	if all {
-		return updateAll(&env, dur)
+	if updateFlagAll {
+		return updateAll(&env, updateDuration)
 	}
 	return updateTools(&env, fs.Args())
 }
