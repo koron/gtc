@@ -32,4 +32,7 @@ $ go update jvgrep
 
 # Update multiple tools
 $ go update goimports golint jvgrep
+
+# Update all tools which has been installed and not touched over 5 days
+$ go update -all
 ```
