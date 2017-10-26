@@ -66,7 +66,7 @@ func main() {
 }
 ```
 
-Then install it:
+And push it to github, then install it:
 
 ```console
 $ go get -u github.com/{YOURNAME}/mygtc
