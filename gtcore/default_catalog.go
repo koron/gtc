@@ -68,4 +68,5 @@ var DefaultCatalog Catalog
 
 func init() {
 	DefaultCatalog = NewCatalog(defaultTools...)
+	DefaultCatalog.Merge(platformTools...)
 }
