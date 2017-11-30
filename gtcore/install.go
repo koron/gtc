@@ -6,7 +6,6 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/koron/gtc/catalog"
 	"github.com/koron/gtc/goenv"
 )
 
@@ -28,7 +27,7 @@ func install(fs *flag.FlagSet, args []string) error {
 }
 
 func installOne(env goenv.Env, prog string) error {
-	c, ok := catalog.Find(prog)
+	tool, ok := catalogFind(prog)
 	if !ok {
 		return fmt.Errorf("unknown catalog %q", prog)
 	}
@@ -36,7 +35,7 @@ func installOne(env goenv.Env, prog string) error {
 		log.Printf("already installed: %s", prog)
 		return nil
 	}
-	err := env.Install(c.Path)
+	err := env.Install(tool.Path)
 	if err != nil {
 		return err
 	}

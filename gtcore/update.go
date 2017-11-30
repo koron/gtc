@@ -7,7 +7,6 @@ import (
 	"log"
 	"time"
 
-	"github.com/koron/gtc/catalog"
 	"github.com/koron/gtc/goenv"
 )
 
@@ -40,7 +39,7 @@ func updateAll(env *goenv.Env, dur time.Duration) error {
 	}
 	var all []string
 	for _, t := range tools {
-		if _, ok := catalog.Find(t); ok {
+		if _, ok := catalogFind(t); ok {
 			all = append(all, t)
 		}
 	}
@@ -65,7 +64,7 @@ func updateTools(env *goenv.Env, tools []string) error {
 }
 
 func updateOne(env *goenv.Env, prog string) error {
-	c, ok := catalog.Find(prog)
+	tool, ok := catalogFind(prog)
 	if !ok {
 		return fmt.Errorf("unknown catalog %q", prog)
 	}
@@ -78,7 +77,7 @@ func updateOne(env *goenv.Env, prog string) error {
 		return nil
 	}
 	log.Printf("updating: %s", prog)
-	err := env.Update(c.Path, prog)
+	err := env.Update(tool.Path, prog)
 	if err != nil {
 		return err
 	}

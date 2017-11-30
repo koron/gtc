@@ -11,8 +11,8 @@ func NewCatalog(tools ...Tool) Catalog {
 }
 
 func (c Catalog) Merge(tools ...Tool) Catalog {
-	for _, t := range tools {
-		c[t.Name()] = t
+	for _, tool := range tools {
+		c[tool.CmdName()] = tool
 	}
 	return c
 }

@@ -53,13 +53,13 @@ import (
 )
 
 func main() {
-	err := gtcore.DefaultCatalog.Merge([]gtcore.Tools{
+	err := gtcore.DefaultCatalog.Merge([]gtcore.Tool{
 		{
 			Path: "github.com/{YOURNAME}/mygtc",
 			Desc: "My own go tools catalog",
 		},
 		// FIXME: add your favorite tools at here!
-	}).Run(os.Args)
+	}...).Run(os.Args)
 	if err != nil {
 		fmt.Println(err.Error())
 	}

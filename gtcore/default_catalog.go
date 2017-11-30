@@ -76,6 +76,7 @@ func init() {
 	catalogFile := os.Getenv("GTC_CATALOG_FILE")
 	if catalogFile == "" {
 		DefaultCatalog = NewCatalog(defaultTools...)
+		DefaultCatalog.Merge(platformTools...)
 	} else {
 		f, err := os.Open(catalogFile)
 		if err != nil {
