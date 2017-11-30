@@ -39,15 +39,17 @@ func list(fs *flag.FlagSet, args []string) error {
 
 func listPrint(w io.Writer, tool Tool) {
 	w.Write([]byte(tool.CmdName()))
+	w.Write([]byte("\n"))
 	if listShowPath {
-		w.Write([]byte("\t"))
+		w.Write([]byte("  "))
 		w.Write([]byte(tool.Path))
+		w.Write([]byte("\n"))
 	}
 	if listShowDesc {
-		w.Write([]byte("\t"))
+		w.Write([]byte("  "))
 		w.Write([]byte(tool.Desc))
+		w.Write([]byte("\n"))
 	}
-	w.Write([]byte("\n"))
 }
 
 func listNotInstalled(env goenv.Env) error {
