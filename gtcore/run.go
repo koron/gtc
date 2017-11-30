@@ -16,7 +16,16 @@ var cmds = subcmd.Subcmds{
 
 var currentCatalog Catalog
 
-func run(c Catalog, args[]string) error {
+func catalogFind(name string) (Tool, bool) {
+	t, ok := currentCatalog[name]
+	return t, ok
+}
+
+func catalogNames() []string {
+	return currentCatalog.Names()
+}
+
+func run(c Catalog, args []string) error {
 	if len(args) < 1 {
 		return errors.New("one ore more argurements required")
 	}

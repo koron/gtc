@@ -6,7 +6,6 @@ import (
 	"io"
 	"os"
 
-	"github.com/koron/gtc/catalog"
 	"github.com/koron/gtc/goenv"
 )
 
@@ -38,37 +37,37 @@ func list(fs *flag.FlagSet, args []string) error {
 	}
 }
 
-func listPrint(w io.Writer, c catalog.Catalog) {
-	w.Write([]byte(c.Name()))
+func listPrint(w io.Writer, tool Tool) {
+	w.Write([]byte(tool.CmdName()))
 	if listShowPath {
 		w.Write([]byte("\t"))
-		w.Write([]byte(c.Path))
+		w.Write([]byte(tool.Path))
 	}
 	if listShowDesc {
 		w.Write([]byte("\t"))
-		w.Write([]byte(c.Desc))
+		w.Write([]byte(tool.Desc))
 	}
 	w.Write([]byte("\n"))
 }
 
 func listNotInstalled(env goenv.Env) error {
-	for _, prog := range catalog.Names() {
+	for _, prog := range catalogNames() {
 		if env.HasTool(prog) {
 			continue
 		}
-		c, _ := catalog.Find(prog)
-		listPrint(os.Stdout, c)
+		tool, _ := catalogFind(prog)
+		listPrint(os.Stdout, tool)
 	}
 	return nil
 }
 
 func listInstalled(env goenv.Env) error {
-	for _, prog := range catalog.Names() {
+	for _, prog := range catalogNames() {
 		if !env.HasTool(prog) {
 			continue
 		}
-		c, _ := catalog.Find(prog)
-		listPrint(os.Stdout, c)
+		tool, _ := catalogFind(prog)
+		listPrint(os.Stdout, tool)
 	}
 	return nil
 }
@@ -79,7 +78,7 @@ func listUnknown(env goenv.Env) error {
 		return err
 	}
 	for _, t := range tools {
-		_, ok := catalog.Find(t)
+		_, ok := catalogFind(t)
 		if ok {
 			continue
 		}
