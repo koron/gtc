@@ -62,6 +62,7 @@ func main() {
 	}...).Run(os.Args)
 	if err != nil {
 		fmt.Println(err.Error())
+		os.Exit(1)
 	}
 }
 ```
