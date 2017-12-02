@@ -1,5 +1,10 @@
 package gtcore
 
+import (
+	"encoding/json"
+	"os"
+)
+
 var defaultTools = []Tool{
 	{
 		Path: "github.com/golang/dep/cmd/dep",
@@ -67,6 +72,26 @@ var defaultTools = []Tool{
 var DefaultCatalog Catalog
 
 func init() {
-	DefaultCatalog = NewCatalog(defaultTools...)
-	DefaultCatalog.Merge(platformTools...)
+	SetupDefaultCatalog()
+}
+
+// SetupDefaultCatalog loads/setups DefaultCatalog with tools from JSON files.
+func SetupDefaultCatalog(names ...string) error {
+	cc := Catalog{}
+	for _, name := range names {
+		f, err := os.Open(name)
+		if err != nil {
+			return err
+		}
+		var tools []Tool
+		err = json.NewDecoder(f).Decode(&tools)
+		if err != nil {
+			return err
+		}
+		cc.Merge(tools...)
+	}
+	DefaultCatalog = cc.
+		Merge(defaultTools...).
+		Merge(platformTools...)
+	return nil
 }
