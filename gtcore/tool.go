@@ -8,7 +8,8 @@ type Tool struct {
 	Path string `json:"path"`
 	Desc string `json:"desc"`
 
-	Name string `json:"name,omitempty` // command name (OPTION). extract from Path if empty.
+	// Name is command name (OPTION). If empty, extract from Path.
+	Name string `json:"name,omitempty`
 }
 
 func (tool Tool) CmdName() string {

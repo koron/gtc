@@ -2,7 +2,6 @@ package gtcore
 
 import (
 	"encoding/json"
-	"log"
 	"os"
 )
 
@@ -73,22 +72,26 @@ var defaultTools = []Tool{
 var DefaultCatalog Catalog
 
 func init() {
-	catalogFile := os.Getenv("GTC_CATALOG_FILE")
-	if catalogFile == "" {
-		DefaultCatalog = NewCatalog(defaultTools...)
-		DefaultCatalog.Merge(platformTools...)
-	} else {
-		f, err := os.Open(catalogFile)
-		if err != nil {
-			log.Fatalf("cannot open catalog file: %v", err)
-		}
-		defer f.Close()
+	SetupDefaultCatalog()
+}
 
+// SetupDefaultCatalog loads/setups DefaultCatalog with tools from JSON files.
+func SetupDefaultCatalog(names ...string) error {
+	cc := Catalog{}
+	for _, name := range names {
+		f, err := os.Open(name)
+		if err != nil {
+			return err
+		}
 		var tools []Tool
 		err = json.NewDecoder(f).Decode(&tools)
 		if err != nil {
-			log.Fatalf("cannot parse catalog file: %v", err)
+			return err
 		}
-		DefaultCatalog = NewCatalog(tools...)
+		cc.Merge(tools...)
 	}
+	DefaultCatalog = cc.
+		Merge(defaultTools...).
+		Merge(platformTools...)
+	return nil
 }

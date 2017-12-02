@@ -73,3 +73,29 @@ $ go get -u github.com/{YOURNAME}/mygtc
 ```
 
 Now you can run `mygtc` instead of `gtc`.
+
+## Custmize with JSON
+
+To load your own catalog from a file, prepare a JSON file like below.
+And set its filename to `GTC_CATALOG_FILE` environment variable.
+It will be merged with the default catalog.
+But tools in the default catalog overrides same name tools in your cataglog.
+
+If you consider to manage your own catalog with git,
+you should manage it in [golang - main.go](#customize-with-your-own-catalog)
+instead of JSON.
+It can override the default catalog entirely.
+
+```json
+[
+  {
+    "path": "github.com/foo/foo",
+    "desc": "your favorite foo"
+  },
+  {
+    "path": "github.com/foo/bar",
+    "desc": "your favorite bar"
+  },
+  ...(other your favorite tools)...
+]
+```
