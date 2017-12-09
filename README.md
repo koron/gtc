@@ -37,7 +37,7 @@ $ go update goimports golint jvgrep
 $ go update -all
 ```
 
-## Custmize with your own catalog
+## Customize with your own catalog
 
 
 Create a new repository `github.com/{YOURNAME}/mygtc` with main.go like this:
@@ -75,12 +75,12 @@ $ go get -u github.com/{YOURNAME}/mygtc
 
 Now you can run `mygtc` instead of `gtc`.
 
-## Custmize with JSON
+## Customize with JSON
 
 To load your own catalog from a file, prepare a JSON file like below.
 And set its filename to `GTC_CATALOG_FILE` environment variable.
 It will be merged with the default catalog.
-But tools in the default catalog overrides same name tools in your cataglog.
+But tools in the default catalog overrides same name tools in your catalog.
 
 If you consider to manage your own catalog with git,
 you should manage it in [golang - main.go](#customize-with-your-own-catalog)
