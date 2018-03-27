@@ -11,6 +11,10 @@ var defaultTools = []Tool{
 		Desc: "Go dependency tool",
 	},
 	{
+		Path: "github.com/derekparker/delve/cmd/dlv",
+		Desc: "Delve is a debugger for the Go programming language.",
+	},
+	{
 		Path: "github.com/kisielk/errcheck",
 		Desc: "errcheck checks that you checked errors.",
 	},
@@ -65,6 +69,10 @@ var defaultTools = []Tool{
 	{
 		Path: "honnef.co/go/tools/cmd/unused",
 		Desc: "unused checks Go code for unused constants, variables, functions and types.",
+	},
+	{
+		Path: "golang.org/x/vgo",
+		Desc: "Versioned Go Prototype",
 	},
 }
 
