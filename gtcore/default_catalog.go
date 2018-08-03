@@ -74,6 +74,10 @@ var defaultTools = []Tool{
 		Path: "golang.org/x/vgo",
 		Desc: "Versioned Go Prototype",
 	},
+	{
+		Path: "github.com/golang/protobuf/protoc-gen-go",
+		Desc: "Go support for Google's protocol buffers",
+	},
 }
 
 // DefaultCatalog provides a catalog of default tools.
