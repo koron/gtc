@@ -7,10 +7,6 @@ import (
 
 var defaultTools = []Tool{
 	{
-		Path: "github.com/golang/dep/cmd/dep",
-		Desc: "Go dependency tool",
-	},
-	{
 		Path: "github.com/derekparker/delve/cmd/dlv",
 		Desc: "Delve is a debugger for the Go programming language.",
 	},
