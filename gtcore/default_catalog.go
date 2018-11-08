@@ -70,6 +70,14 @@ var defaultTools = []Tool{
 		Path: "github.com/golang/protobuf/protoc-gen-go",
 		Desc: "Go support for Google's protocol buffers",
 	},
+	{
+		Path: "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-grpc-gateway",
+		Desc: "gRPC to JSON proxy generator following the gRPC HTTP spec - gateway",
+	},
+	{
+		Path: "github.com/grpc-ecosystem/grpc-gateway/protoc-gen-swagger",
+		Desc: "gRPC to JSON proxy generator following the gRPC HTTP spec - swagger",
+	},
 }
 
 // DefaultCatalog provides a catalog of default tools.
