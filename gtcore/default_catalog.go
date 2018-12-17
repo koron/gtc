@@ -35,6 +35,10 @@ var defaultTools = []Tool{
 		Desc: "The gorename command performs precise type-safe renaming of identifiers in Go source code.",
 	},
 	{
+		Path: "golang.org/x/tools/cmd/golsp",
+		Desc: "The golsp command is an LSP server for Go.",
+	},
+	{
 		Path: "github.com/jstemmer/gotags",
 		Desc: "ctags-compatible tag generator for Go",
 	},
