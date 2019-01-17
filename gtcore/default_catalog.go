@@ -39,6 +39,10 @@ var defaultTools = []Tool{
 		Desc: "The golsp command is an LSP server for Go.",
 	},
 	{
+		Path: "golang.org/x/tools/cmd/gopls",
+		Desc: "The gols command is an LSP server for Go.",
+	},
+	{
 		Path: "github.com/jstemmer/gotags",
 		Desc: "ctags-compatible tag generator for Go",
 	},
