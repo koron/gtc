@@ -72,8 +72,9 @@ func (env *Env) Install(path string) error {
 // Update update a tool.
 func (env *Env) Update(path, tool string) error {
 	c := exec.Command("go", "get", "-v", "-u", path)
-	err := c.Run()
+	b, err := c.CombinedOutput()
 	if err != nil {
+		os.Stderr.Write(b)
 		return err
 	}
 	err = env.touchTool(tool)

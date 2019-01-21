@@ -54,11 +54,17 @@ func updateTools(env *goenv.Env, tools []string) error {
 	if len(tools) == 0 {
 		return errors.New("no tools to update")
 	}
+	var failed bool
 	for _, prog := range tools {
 		err := updateOne(env, prog)
 		if err != nil {
-			return err
+			failed = true
+			log.Printf("failed to update %s: %s", prog, err)
+			continue
 		}
+	}
+	if failed {
+		return errors.New("failed to update one or more tools")
 	}
 	return nil
 }
