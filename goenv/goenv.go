@@ -45,6 +45,12 @@ func (env *Env) removeTool(tool string) error {
 	return nil
 }
 
+func (env *Env) touchTool(tool string) error {
+	n := env.toolName(tool)
+	now := time.Now()
+	return os.Chtimes(n, now, now)
+}
+
 func (env *Env) HasTool(tool string) bool {
 	name := env.toolName(tool)
 	fi, err := os.Stat(name)
@@ -63,15 +69,14 @@ func (env *Env) Install(path string) error {
 	return nil
 }
 
+// Update update a tool.
 func (env *Env) Update(path, tool string) error {
-	if tool != "" {
-		err := env.removeTool(tool)
-		if err != nil {
-			return err
-		}
-	}
 	c := exec.Command("go", "get", "-v", "-u", path)
 	err := c.Run()
+	if err != nil {
+		return err
+	}
+	err = env.touchTool(tool)
 	if err != nil {
 		return err
 	}
