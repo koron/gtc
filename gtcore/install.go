@@ -17,11 +17,17 @@ func install(fs *flag.FlagSet, args []string) error {
 		return errors.New("no tools to install")
 	}
 	env := goenv.Default
+	failed := false
 	for _, prog := range fs.Args() {
 		err := installOne(env, prog)
 		if err != nil {
-			return err
+			failed = true
+			log.Printf("failed to install %s: %s", prog, err)
+			continue
 		}
+	}
+	if failed {
+		return errors.New("failed to install one or more tools")
 	}
 	return nil
 }
