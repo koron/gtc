@@ -27,7 +27,7 @@ var defaultTools = []Tool{
 		Desc: "updates your Go import lines, adding missing ones and removing unreferenced ones.",
 	},
 	{
-		Path: "github.com/golang/lint/golint",
+		Path: "golang.org/x/lint/golint",
 		Desc: "a linter for Go source code",
 	},
 	{
