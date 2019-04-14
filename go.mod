@@ -1,3 +1,5 @@
 module github.com/koron/gtc
 
-require github.com/koron/go-subcmd v0.0.0-20180723062537-aaefb6484e88
+go 1.12
+
+require github.com/koron/go-subcmd v0.0.0-20190311064910-9887fc382ee2
