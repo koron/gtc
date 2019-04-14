@@ -35,10 +35,6 @@ var defaultTools = []Tool{
 		Desc: "The gorename command performs precise type-safe renaming of identifiers in Go source code.",
 	},
 	{
-		Path: "golang.org/x/tools/cmd/golsp",
-		Desc: "The golsp command is an LSP server for Go.",
-	},
-	{
 		Path: "golang.org/x/tools/cmd/gopls",
 		Desc: "The gols command is an LSP server for Go.",
 	},
@@ -53,6 +49,10 @@ var defaultTools = []Tool{
 	{
 		Path: "github.com/koron/gtc",
 		Desc: "Go tools catalog",
+	},
+	{
+		Path: "github.com/koron/tmpl",
+		Desc: "simple template expander",
 	},
 	{
 		Path: "github.com/mattn/jvgrep",
