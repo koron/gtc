@@ -13,28 +13,28 @@ $ go get -u github.com/koron/gtc
 
 ```console
 # List tools installed
-$ go list
+$ gtc list
 
 # List tools not-installed
-$ go list -filter notinstalled
+$ gtc list -filter notinstalled
 
 # List tools unknown (for gtc)
-$ go list -filter unknown
+$ gtc list -filter unknown
 
 # Install a tool
-$ go install jvgrep
+$ gtc install jvgrep
 
 # Install multiple tools
-$ go install goimports golint jvgrep
+$ gtc install goimports golint jvgrep
 
 # Update a tool
-$ go update jvgrep
+$ gtc update jvgrep
 
 # Update multiple tools
-$ go update goimports golint jvgrep
+$ gtc update goimports golint jvgrep
 
 # Update all tools which has been installed and not touched over 5 days
-$ go update -all
+$ gtc update -all
 ```
 
 ## Customize with your own catalog
