@@ -71,8 +71,12 @@ var defaultTools = []Tool{
 		Desc: "Swagger 2.0 implementation for go https://goswagger.io",
 	},
 	{
+		Path: "honnef.co/go/tools/cmd/staticcheck",
+		Desc: "staticcheck offers extensive analysis of Go code, covering a myriad of categories.",
+	},
+	{
 		Path: "honnef.co/go/tools/cmd/unused",
-		Desc: "unused checks Go code for unused constants, variables, functions and types.",
+		Desc: "unused checks Go code for unused constants, variables, functions and types (deprecated)",
 	},
 	{
 		Path: "github.com/golang/protobuf/protoc-gen-go",
