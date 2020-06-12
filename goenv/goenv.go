@@ -34,7 +34,8 @@ func (env *Env) toolName(tool string) string {
 	return filepath.Join(env.RootDir, "bin", tool+env.ExeSuffix)
 }
 
-func (env *Env) removeTool(tool string) error {
+// Uninstall uninstalls a tool from "$GOPATH/bin".
+func (env *Env) Uninstall(tool string) error {
 	n := env.toolName(tool)
 	_, err := os.Stat(n)
 	if err != nil {
