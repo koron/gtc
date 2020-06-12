@@ -10,12 +10,20 @@ import (
 	"time"
 )
 
+// Env is information of gtc running environment.
 type Env struct {
-	RootDir   string
+	// RootDir is first element of GOPATH
+	RootDir string
+
+	// ExeSuffix is extension of executable file name for the OS.
+	// ".exe" for Windows, "" for other OS.
 	ExeSuffix string
+
+	// IsWindows is true for Windows.
 	IsWindows bool
 }
 
+// New creates `*Env`
 func New(root string) *Env {
 	return &Env{
 		RootDir: root,
@@ -51,6 +59,7 @@ func (env *Env) touchTool(tool string) error {
 	return os.Chtimes(n, now, now)
 }
 
+// HasTool checks a specified tool is installed or not.
 func (env *Env) HasTool(tool string) bool {
 	name := env.toolName(tool)
 	fi, err := os.Stat(name)
@@ -60,6 +69,7 @@ func (env *Env) HasTool(tool string) bool {
 	return fi.Mode().IsRegular()
 }
 
+// Install installs a tool.
 func (env *Env) Install(path string) error {
 	c := exec.Command("go", "get", path)
 	err := c.Run()
@@ -103,10 +113,12 @@ func (env *Env) tools(filter func(os.FileInfo) bool) ([]string, error) {
 	return tools, nil
 }
 
+// Tools returns all installed tools.
 func (env *Env) Tools() ([]string, error) {
 	return env.tools(func(os.FileInfo) bool { return true })
 }
 
+// OldTools returns list of tools, which are not updated recently.
 func (env *Env) OldTools(pivot time.Time) ([]string, error) {
 	return env.tools(func(fi os.FileInfo) bool {
 		return fi.ModTime().Before(pivot)
@@ -137,4 +149,5 @@ func init() {
 	Default = defaultEnv(build.Default)
 }
 
+// Default is default `Env` for current running environment.
 var Default Env
