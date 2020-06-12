@@ -1,4 +1,4 @@
-gtc
-gtc.exe
-tmp/
+/gtc
+/gtc.exe
 tags
+tmp/

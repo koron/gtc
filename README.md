@@ -1,5 +1,9 @@
 # Go Tool Catalog
 
+[![GoDoc](https://godoc.org/github.com/koron/gtc?status.svg)](https://godoc.org/github.com/koron/gtc)
+[![Actions/Go](https://github.com/koron/gtc/workflows/Go/badge.svg)](https://github.com/koron/gtc/actions?query=workflow%3AGo)
+[![Go Report Card](https://goreportcard.com/badge/github.com/koron/gtc)](https://goreportcard.com/report/github.com/koron/gtc)
+
 Gtc installs and updates well known tools written by golang.
 
 ## Install gtc
