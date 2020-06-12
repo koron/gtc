@@ -82,7 +82,7 @@ var defaultTools = []Tool{
 		Desc: "staticcheck offers extensive analysis of Go code, covering a myriad of categories.",
 	},
 	{
-		Path: "honnef.co/go/tools/cmd/unused",
-		Desc: "unused checks Go code for unused constants, variables, functions and types (deprecated)",
+		Path:      "honnef.co/go/tools/cmd/unused",
+		Desc:      "unused checks Go code for unused constants, variables, functions and types (deprecated)",
 	},
 }

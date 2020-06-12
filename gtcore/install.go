@@ -10,13 +10,15 @@ import (
 )
 
 func install(fs *flag.FlagSet, args []string) error {
+	env := goenv.Default
+	fs.BoolVar(&env.EnableModule, "module", false, "use module to install")
+	fs.BoolVar(&env.Verbose, "verbose", false, "verbose message")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
 	if fs.NArg() == 0 {
 		return errors.New("no tools to install")
 	}
-	env := goenv.Default
 	failed := false
 	for _, prog := range fs.Args() {
 		err := installOne(env, prog)

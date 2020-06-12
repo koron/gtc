@@ -17,15 +17,17 @@ var (
 )
 
 func update(fs *flag.FlagSet, args []string) error {
+	env := goenv.Default
 	fs.BoolVar(&updateDryrun, "dryrun", false, "dry run to update")
 	fs.BoolVar(&updateFlagAll, "all", false, "update all installed tools")
 	fs.DurationVar(&updateDuration, "duration", time.Hour*24*5,
 		"threshold to update with \"-all\"")
+	fs.BoolVar(&env.EnableModule, "module", false, "use module to install")
+	fs.BoolVar(&env.Verbose, "verbose", false, "verbose message")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
 
-	env := goenv.Default
 	if updateFlagAll {
 		return updateAll(&env, updateDuration)
 	}

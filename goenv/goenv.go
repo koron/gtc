@@ -21,6 +21,10 @@ type Env struct {
 
 	// IsWindows is true for Windows.
 	IsWindows bool
+
+	EnableModule bool
+
+	Verbose bool
 }
 
 // New creates `*Env`
@@ -70,11 +74,28 @@ func (env *Env) HasTool(tool string) bool {
 	return fi.Mode().IsRegular()
 }
 
+func (env *Env) moduleEnvstr() string {
+	if env.EnableModule {
+		return "GO111MODULE=on"
+	}
+	return "GO111MODULE=off"
+}
+
 // Install installs a tool.
 func (env *Env) Install(path string) error {
-	c := exec.Command("go", "get", path)
-	err := c.Run()
+	args := make([]string, 0, 3)
+	args = append(args, "get")
+	if env.Verbose {
+		args = append(args, "-v")
+	}
+	args = append(args, path)
+	c := exec.Command("go", args...)
+	c.Env = os.Environ()
+	c.Env = append(c.Env, env.moduleEnvstr())
+
+	b, err := c.CombinedOutput()
 	if err != nil {
+		os.Stderr.Write(b)
 		return err
 	}
 	return nil
@@ -82,7 +103,16 @@ func (env *Env) Install(path string) error {
 
 // Update update a tool.
 func (env *Env) Update(path, tool string) error {
-	c := exec.Command("go", "get", "-v", "-u", path)
+	args := make([]string, 0, 4)
+	args = append(args, "get", "-u")
+	if env.Verbose {
+		args = append(args, "-v")
+	}
+	args = append(args, path)
+	c := exec.Command("go", args...)
+	c.Env = os.Environ()
+	c.Env = append(c.Env, env.moduleEnvstr())
+
 	b, err := c.CombinedOutput()
 	if err != nil {
 		os.Stderr.Write(b)
