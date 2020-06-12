@@ -1,6 +1,10 @@
 package gtcore
 
-import "sort"
+import (
+	"encoding/json"
+	"os"
+	"sort"
+)
 
 type Catalog map[string]Tool
 
@@ -28,4 +32,32 @@ func (c Catalog) Names() []string {
 
 func (c Catalog) Run(args []string) error {
 	return run(c, args)
+}
+
+// DefaultCatalog provides a catalog of default tools.
+var DefaultCatalog Catalog
+
+func init() {
+	SetupDefaultCatalog()
+}
+
+// SetupDefaultCatalog loads/setups DefaultCatalog with tools from JSON files.
+func SetupDefaultCatalog(names ...string) error {
+	cc := Catalog{}
+	for _, name := range names {
+		f, err := os.Open(name)
+		if err != nil {
+			return err
+		}
+		var tools []Tool
+		err = json.NewDecoder(f).Decode(&tools)
+		if err != nil {
+			return err
+		}
+		cc.Merge(tools...)
+	}
+	DefaultCatalog = cc.
+		Merge(defaultTools...).
+		Merge(platformTools...)
+	return nil
 }
