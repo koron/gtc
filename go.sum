@@ -1,2 +1,2 @@
-github.com/koron/go-subcmd v0.0.0-20190311064910-9887fc382ee2 h1:zAQVr18YXw5YuyomnozXqU7o1V78Rd87cyQP8MLFUQE=
-github.com/koron/go-subcmd v0.0.0-20190311064910-9887fc382ee2/go.mod h1:aooLdRRlM3RG7edvC6h0NbQPB0xOJrJ5fjg3ChkKZUw=
+github.com/koron/go-subcmd v1.0.0 h1:AVCdeWSfY9LaiuVHAumEKV3OYIIKG7pHw/+vvxhlJdk=
+github.com/koron/go-subcmd v1.0.0/go.mod h1:D+hefRR744UrPtYBpn9xhuXNdJK4NliVntPEPTZajjA=
