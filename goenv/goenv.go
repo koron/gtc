@@ -3,6 +3,7 @@ package goenv
 import (
 	"go/build"
 	"io/ioutil"
+	"log"
 	"os"
 	"os/exec"
 	"path/filepath"
@@ -50,11 +51,21 @@ func (env *Env) Uninstall(tool string) error {
 	}
 	err = os.Remove(n)
 	if err != nil {
+		// on Windows, running command can't be removed. So try to rename with
+		// "~" suffix instead.
 		if env.IsWindows && os.IsPermission(err) {
-			return os.Rename(n, n+"~")
+			err := os.Rename(n, n+"~")
+			if err != nil {
+				return err
+			}
+			if env.Verbose {
+				log.Printf("uninstalled with rename: %s", tool)
+			}
+			return nil
 		}
 		return err
 	}
+	log.Printf("uninstalled: %s", tool)
 	return nil
 }
 

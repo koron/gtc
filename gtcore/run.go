@@ -8,10 +8,11 @@ import (
 )
 
 var cmds = subcmd.Subcmds{
-	"install": subcmd.Main2(install),
-	"list":    subcmd.Main2(list),
-	"update":  subcmd.Main2(update),
-	"test":    subcmd.Main2(test),
+	"install":   subcmd.Main2(install),
+	"uninstall": subcmd.Main2(uninstall),
+	"list":      subcmd.Main2(list),
+	"update":    subcmd.Main2(update),
+	"test":      subcmd.Main2(test),
 }
 
 var currentCatalog Catalog

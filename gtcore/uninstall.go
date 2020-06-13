@@ -9,42 +9,41 @@ import (
 	"github.com/koron/gtc/goenv"
 )
 
-func install(fs *flag.FlagSet, args []string) error {
+func uninstall(fs *flag.FlagSet, args []string) error {
 	env := goenv.Default
-	fs.BoolVar(&env.EnableModule, "module", false, "use module to install")
 	fs.BoolVar(&env.Verbose, "verbose", false, "verbose message")
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
 	if fs.NArg() == 0 {
-		return errors.New("no tools to install")
+		return errors.New("no tools to uninstall")
 	}
+
 	failed := false
 	for _, prog := range fs.Args() {
-		err := installOne(env, prog)
+		err := uninstallOne(env, prog)
 		if err != nil {
 			failed = true
-			log.Printf("failed to install %s: %s", prog, err)
+			log.Printf("failed to uninstall %s: %s", prog, err)
 			continue
 		}
 	}
 	if failed {
-		return errors.New("failed to install one or more tools")
+		return errors.New("failed to uninstall one or more tools")
 	}
 	return nil
 }
 
-func installOne(env goenv.Env, prog string) error {
+func uninstallOne(env goenv.Env, prog string) error {
 	tool, ok := catalogFind(prog)
 	if !ok {
 		return fmt.Errorf("unknown catalog %q", prog)
 	}
-	if env.HasTool(prog) {
-		log.Printf("already installed: %s", prog)
+	if !env.HasTool(prog) {
+		log.Printf("not installed: %s", prog)
 		return nil
 	}
-	log.Printf("installing: %s", prog)
-	err := env.Install(tool.Path)
+	err := env.Uninstall(tool.CmdName())
 	if err != nil {
 		return err
 	}
