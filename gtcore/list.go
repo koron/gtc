@@ -1,6 +1,7 @@
 package gtcore
 
 import (
+	"context"
 	"flag"
 	"fmt"
 	"io"
@@ -10,9 +11,11 @@ import (
 )
 
 var (
-	listFilter   string
-	listShowPath bool
-	listShowDesc bool
+	listFilter     string
+	listShowPath   bool
+	listShowDesc   bool
+	listShowModule bool
+	listShowLatest bool
 )
 
 func list(fs *flag.FlagSet, args []string) error {
@@ -20,6 +23,8 @@ func list(fs *flag.FlagSet, args []string) error {
 		`filter by status: "installed", "notinstalled" or "unknown"`)
 	fs.BoolVar(&listShowPath, "path", false, `show path of catalogs`)
 	fs.BoolVar(&listShowDesc, "desc", false, `show desc of catalogs`)
+	fs.BoolVar(&listShowModule, "mod", false, `show module path of catalogs`)
+	fs.BoolVar(&listShowLatest, "latest", false, `show latest version`)
 	if err := fs.Parse(args); err != nil {
 		return err
 	}
@@ -38,17 +43,25 @@ func list(fs *flag.FlagSet, args []string) error {
 }
 
 func listPrint(w io.Writer, tool Tool) {
-	w.Write([]byte(tool.CmdName()))
-	w.Write([]byte("\n"))
+	fmt.Fprintf(w, "%s\n", tool.CmdName())
 	if listShowPath {
-		w.Write([]byte("  "))
-		w.Write([]byte(tool.Path))
-		w.Write([]byte("\n"))
+		fmt.Fprintf(w, "    Path: %s\n", tool.Path)
 	}
 	if listShowDesc {
-		w.Write([]byte("  "))
-		w.Write([]byte(tool.Desc))
-		w.Write([]byte("\n"))
+		fmt.Fprintf(w, "    Desc: %s\n", tool.Desc)
+	}
+	if listShowModule {
+		fmt.Fprintf(w, "  Module: %s\n", tool.ModulePath())
+	}
+	if listShowLatest {
+		info, err := tool.Latest(context.Background())
+		var latest string
+		if err != nil {
+			latest = fmt.Sprintf("(error: %s)", err)
+		} else {
+			latest = info.Version
+		}
+		fmt.Fprintf(w, "  Latest: %s\n", latest)
 	}
 }
 
