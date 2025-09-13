@@ -1,4 +1,4 @@
-github.com/koron-go/jsonhttpc v0.0.0-20200210084327-f157f8cf56b2 h1:4nj5tGwPXq5t5y5tRRqGFuP8e32tZHNieKmQcBpoLd0=
-github.com/koron-go/jsonhttpc v0.0.0-20200210084327-f157f8cf56b2/go.mod h1:DWGHjjsNKhooWRs9MbACnVqfiJTIRI7aAoRoRybIErc=
+github.com/koron-go/jsonhttpc v0.9.0 h1:JSwzgYWXXH4k1mwxx90LHCS+ZdxoTYwcn0Y/Eu4tdN0=
+github.com/koron-go/jsonhttpc v0.9.0/go.mod h1:RxfHCdAmAIdddrrIPie7cO1Le0Q73tWiPVM9WR10SCQ=
 github.com/koron/go-subcmd v1.0.0 h1:AVCdeWSfY9LaiuVHAumEKV3OYIIKG7pHw/+vvxhlJdk=
 github.com/koron/go-subcmd v1.0.0/go.mod h1:D+hefRR744UrPtYBpn9xhuXNdJK4NliVntPEPTZajjA=
